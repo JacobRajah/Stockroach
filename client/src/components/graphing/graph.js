@@ -1,15 +1,17 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import {Line, Bar} from 'react-chartjs-2';
 import './graph.css';
 
 class Graph extends Component { 
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props);
+
         // Sample data
         this.data = [
             {
                 date: '2021-01-14',
-                ema_50: 25,
+                ema_50: 15,
                 ema_250: 26,
                 mom_50: 50,
                 mom_250: 75,
@@ -37,7 +39,7 @@ class Graph extends Component {
             },
             {
                 date: '2021-01-16',
-                ema_50: 25,
+                ema_50: 35,
                 ema_250: 26,
                 mom_50: 50,
                 mom_250: 75,
@@ -50,12 +52,56 @@ class Graph extends Component {
                 volume: 20
             }
         ]
+
+        var datelabels = this.data.map(function(e) {
+            return e.date;
+        });
+        var metric = this.data.map(function(e) {
+            return e[props.metrics];
+        });
+
+        this.state = {
+            chartData:{
+                labels: datelabels,
+                datasets:[
+                    {
+                        label: 'Population',
+                        data: metric,
+                        backgroundColor: [
+                            'rgba(92, 103, 125, 0.6)',
+                        ]
+                    }
+                ]
+            }
+        }
+
+    }
+
+    static defaultProps = {
+        displayTitle: true,
+        displayLegend: true,
+        legendPosition: 'right'
     }
 
     render() {
         return(
-            <div>
-                <h1>Welcome to Stockroach</h1>
+            <div className="graph">
+                <Line
+                data={this.state.chartData}
+                // width={100}
+                // height={50}
+                options={{ 
+                    title:{
+                        display: this.props.displayTitle,
+                        text:'Largest Cities in Massachusetts',
+                        fontSize: 25
+                    },
+                    legend:{
+                        display: this.props.displayLegend,
+                        position: this.props.legendPosition
+                    }
+                }}
+                />            
             </div>
         )
     }

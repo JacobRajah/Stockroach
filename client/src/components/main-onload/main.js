@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './main.css';
+import Graph from '../graphing/graph'
 // import axios from 'axios'
 
 // function Hello(params) {

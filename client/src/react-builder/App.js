@@ -1,5 +1,6 @@
 import './App.css';
 import Main from '../components/main-onload/main'
+import Graph from '../components/graphing/graph'
 
 function App() {
   return (
