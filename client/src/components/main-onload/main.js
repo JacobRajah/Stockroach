@@ -6,8 +6,7 @@ import './main.css';
 //     return(<div>Hello</div>)
 // }
 
-class Main extends Component {
-
+class Main extends Component { 
     // hello = () => {
     //     return(
     //         <div></div>
