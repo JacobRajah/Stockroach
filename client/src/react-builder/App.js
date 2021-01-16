@@ -1,10 +1,10 @@
 import './App.css';
-import Customers from '../components/testing/customers'
+import Main from '../components/main-onload/main'
 
 function App() {
   return (
     <div className="App">
-      <Customers></Customers>
+      <Main></Main>
     </div>
   );
 }
