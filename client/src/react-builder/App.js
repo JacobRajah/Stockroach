@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Main from '../components/main-onload/main'
+import Graph from '../components/graphing/graph'
 import SearchPage from '../components/search-page/searchPage'
 import Rand1 from '../components/rand1/rand1'
 import Rand2 from '../components/rand2/rand2'
