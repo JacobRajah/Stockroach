@@ -39,7 +39,7 @@ class AddStocks extends Component {
             <div>
                 <NavBar></NavBar>
                 <h1>Add your stock to your Portfolio</h1>
-                <form>
+                <form action="/reports">
                     <TextField
                         id="username"
                         label="Username"
