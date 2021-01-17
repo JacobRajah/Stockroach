@@ -131,6 +131,12 @@ app.get('/transactions', (req, res) => {
     res.send(trans);
 });
 
+/* Get 5 transactions */
+app.get('/transactions/5', (req, res) => {
+    let trans = data.getTransactions(transactions);
+    res.send(trans.slice(0,5));
+});
+
 /* Get all transactions */
 app.get('/transactionsReturns', (req, res) => {
     data.getTransactionReturns(transactions).then(resp => res.send(resp)

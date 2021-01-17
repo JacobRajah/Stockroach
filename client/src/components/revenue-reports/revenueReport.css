@@ -42,3 +42,15 @@
     height: 100%;
     margin-top: 5em;
 }
+
+.gain-val {
+    color: green;
+    font-family: 'Times New Roman';
+    font-size: 2em;
+}
+
+.loss-val {
+    color: red;
+    font-family: 'Times New Roman';
+    font-size: 2em;
+}

@@ -1,22 +1,14 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
+import Title from '../templates/Title';
 import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-}));
-
 function StockOrders(props) {
-  const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
@@ -46,11 +38,6 @@ function StockOrders(props) {
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" to='./reports'>
-          See more orders
-        </Link>
-      </div>
     </React.Fragment>
   );
 }
@@ -65,7 +52,7 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-      axios.get('/transactions/5').then(res => {
+      axios.get('/transactions').then(res => {
         this.setState({rows: res.data})
       })
     }
