@@ -47,7 +47,7 @@ class Chart extends Component {
     super();
     this.state = {
       data: [],
-      Title: "Google (googl)",
+      Title: "Google",
       carousel: [
         ["Google", "googl"],
         ["Microsoft", "msft_real"],
@@ -70,7 +70,7 @@ class Chart extends Component {
 
   fetchStock() {
     var data = {stock: this.state.carousel[this.state.current][1]}
-    axios.post('/stockReq', data).then(
+    axios.post('/stockReq/open', data).then(
       res => {
         res = res.data.map((e,i) => {
           return createData(e.time, e.value)
@@ -81,8 +81,6 @@ class Chart extends Component {
       }
     )
   }
-
-
 
   render() {
     return (

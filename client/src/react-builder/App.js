@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Main from '../components/main-onload/main'
 import SearchPage from '../components/search-page/searchPage'
-import Rand1 from '../components/rand1/rand1'
-import Rand2 from '../components/rand2/rand2'
-import Rand3 from '../components/rand3/rand3'
+import AddStocks from '../components/add-stocks/addStocks'
+import StockComparer from '../components/compare-stocks/stockComparer'
+import RevenueReport from '../components/revenue-reports/revenueReport'
 
 class App extends Component {
   render() {
@@ -15,9 +15,9 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={Main}></Route>
           <Route exact path='/search' component={SearchPage}></Route>
-          <Route exact path='/rand1' component={Rand1}></Route>
-          <Route exact path='/rand2' component={Rand2}></Route>
-          <Route exact path='/rand3' component={Rand3}></Route>
+          <Route exact path='/addstocks' component={AddStocks}></Route>
+          <Route exact path='/reports' component={RevenueReport}></Route>
+          <Route exact path='/compare' component={StockComparer}></Route>
         </Switch>
       </div>
     )

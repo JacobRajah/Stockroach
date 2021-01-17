@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './main.css';
-import Graph from '../graphing/graph'
 import Dashboard from '../templates/Dashboard';
 // import axios from 'axios'
 
