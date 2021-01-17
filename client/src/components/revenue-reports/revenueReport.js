@@ -12,7 +12,7 @@ function GainPanel(props) {
     return(
         <div className="sum-panel-1">
             <h4>Gains</h4>
-            <h4 className="gain-val">{props.gains}</h4>
+            <h4 className="gain-val">${props.gains}</h4>
         </div>
     )
 }
@@ -20,8 +20,9 @@ function GainPanel(props) {
 function LossPanel(props) {
     return(
         <div className="sum-panel-2">
-            <h4>Losses</h4>
-            <h4 className="loss-val">${props.losses}</h4>
+            <h4>Outcomes</h4>
+            <h4 className="loss-val">Invested ${props.input} Returns ${props.output}</h4>
+            {/* <h4 className="loss-val">${props.output}</h4> */}
         </div>
     )
 }
@@ -30,7 +31,8 @@ function Zone(props) {
     return (
         <div className="area">
             <GainPanel gains={props.gains}></GainPanel>
-            <LossPanel losses={props.losses}></LossPanel>
+            <LossPanel input={props.input}
+                       output={props.output}></LossPanel>
             <Orders></Orders>
         </div>
     )
@@ -42,13 +44,17 @@ class RevenueReport extends Component {
         super();
         this.state = {
             gain: '$3,024.00',
-            loss: '$0.00'
+            input: '$0.00',
+            output: '$0.00'
         }
     }
 
     componentDidMount() {
         axios.get('/returns').then(res => {
-          this.setState({gain: res.data.totalGains, loss: res.data.totalLosses}
+          this.setState({gain: res.data.totalGains,
+                         input: res.data.input,
+                         output: res.data.output
+                        }
               )
         })
       }
@@ -57,7 +63,9 @@ class RevenueReport extends Component {
         return(
             <div className="report-page">
                 <NavBar></NavBar>
-                <Zone gains={this.state.gain} losses={this.state.loss}></Zone>
+                <Zone gains={this.state.gain} 
+                      input={this.state.input}
+                      output={this.state.output}></Zone>
             </div>
         )
     }
