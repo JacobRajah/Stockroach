@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Chart from './Chart';
-import Deposits from './Deposits';
+import Deposits from './Gains';
 import Orders from './Orders';
 import NavBar from './navbar';
 import '../search-page/searchPage.css';
@@ -18,7 +18,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        STOCKROACH
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
