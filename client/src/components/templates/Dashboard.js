@@ -11,6 +11,7 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import NavBar from './navbar';
+import '../search-page/searchPage.css';
 
 function Copyright() {
   return (
@@ -117,7 +118,6 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                   <Chart></Chart>
@@ -137,9 +137,11 @@ export default function Dashboard() {
               </Paper>
             </Grid>
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
+          <div className = "searchHeader">
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </div>
         </Container>
       </main>
     </div>

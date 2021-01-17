@@ -12,8 +12,12 @@
   flex-wrap: wrap;
 }
 
-.Header {
+.searchHeader {
   background-color: grey;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
 }
 
 .content {
@@ -25,3 +29,10 @@
 .root {
   display: flex;
 }
+
+.section {
+  height: "100%";
+  padding-top: 5;
+  background-color: "#fff";
+}
+
