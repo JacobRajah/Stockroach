@@ -1,0 +1,27 @@
+.SearchGraph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+.SearchBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.Header {
+  background-color: grey;
+}
+
+.content {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: auto;
+}
+
+.root {
+  display: flex;
+}
