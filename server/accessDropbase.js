@@ -14,7 +14,7 @@ function getMicrosoftClose(){
     }).then(res => console.log(res.data)).catch(err => console.log(err))
 }
 
-async function getStockData(stock) {
+async function getStockData(stock, metric) {
     var stock_data = await axios({
         method: 'get',
         url: `https://query.dropbase.io/d3qWnE2P2znW8my37386zr/${stock}`,
@@ -24,18 +24,18 @@ async function getStockData(stock) {
         }
     });
     stock_data = await stock_data.data
-    return filterFiftyDay(await stock_data)
+    return filterFiftyDay(await stock_data, metric)
 }
 
-function filterFiftyDay(data) {
+function filterFiftyDay(data, metric) {
     var formatted = data.map((e, i) => {
         time = e.time
-        value = e.ema_50;
+        value = e[metric];
         return {time, value};
     })
     return formatted
 }
 
-// getStockData('msft').then(res => console.log(res))
+// getStockData('msft', 'open').then(res => console.log(res))
 
 module.exports.getStockData = getStockData
