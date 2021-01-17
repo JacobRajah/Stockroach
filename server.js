@@ -16,9 +16,9 @@ let transactions = [
     {
         "username": "foobar",
         "stock": "AMZN",
-        "price_bought": 3100,
-        "date_bought": "2020-01-10",
-        "shares": 2,
+        "price_bought": 3175,
+        "date_bought": "2020-01-08",
+        "shares": 0.5,
         "application": "Bank",
         "transaction": "buy"
     },
@@ -33,9 +33,9 @@ let transactions = [
     },
     {
         "username": "foobar",
-        "stock": "AMZN",
-        "price_bought": 3100,
-        "date_bought": "2020-01-12",
+        "stock": "MSFT",
+        "price_bought": 218,
+        "date_bought": "2020-01-11",
         "shares": 2,
         "application": "Bank",
         "transaction": "buy"
@@ -43,7 +43,16 @@ let transactions = [
     {
         "username": "foobar",
         "stock": "AMZN",
-        "price_bought": 3100,
+        "price_bought": 3145,
+        "date_bought": "2020-01-11",
+        "shares": 1,
+        "application": "Bank",
+        "transaction": "buy"
+    },
+    {
+        "username": "foobar",
+        "stock": "NFLX",
+        "price_bought": 511,
         "date_bought": "2020-01-13",
         "shares": 2,
         "application": "Bank",
@@ -53,27 +62,23 @@ let transactions = [
         "username": "foobar",
         "stock": "AMZN",
         "price_bought": 3100,
-        "date_bought": "2020-01-14",
-        "shares": 2,
-        "application": "Bank",
-        "transaction": "buy"
-    },
-    {
-        "username": "foobar",
-        "stock": "AMZN",
-        "price_bought": 3100,
-        "date_bought": "2020-01-15",
+        "date_bought": "2020-01-11",
         "shares": 2,
         "application": "Bank",
         "transaction": "buy"
     },
 ]
 
-let today = [
-    {
-        "AMZN": 3100
-    }
-]
+let today_prices = {
+        "AMZN": 3200,
+        "NVDA": 514.38,
+        "AMD": 88.21,
+        "FB": 251.36,
+        "MSFT": 212.65,
+        "GOOGL": 1727.62,
+        "NFLX": 497.98
+}
+
 
 /* Functions for when using built version of React scripts. 
    if you want to test production execute <npm run build> then
@@ -100,7 +105,6 @@ app.post('/stockReq/:metric', (req, res) => {
     ).catch(err => console.log(err))
 });
 
-
 /* User adds transaction using form */
 app.post('/transaction', (req, res) => {
     let username = "foobar";
@@ -119,6 +123,24 @@ app.post('/transaction', (req, res) => {
         application: application,
         transaction: transaction
     })
+});
+
+/* Get all transactions */
+app.get('/transactions', (req, res) => {
+    let trans = data.getTransactions(transactions);
+    res.send(trans);
+});
+
+/* Get all transactions */
+app.get('/transactionsReturns', (req, res) => {
+    data.getTransactionReturns(transactions).then(resp => res.send(resp)
+    ).catch(err => console.log(err))
+});
+
+/* Get all transaction returns */
+app.get('/returns', (req, res) => {
+    let trans = data.getTransactionReturns(transactions, today_prices);
+    res.send(trans);
 });
 
 /* Client requests basic data for a stock */
