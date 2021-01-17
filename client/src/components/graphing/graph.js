@@ -56,8 +56,12 @@ class Graph extends Component {
         var datelabels = this.data.map(function(e) {
             return e.date;
         });
-        var metric = this.data.map(function(e) {
-            return e[props.metrics];
+        var metric1 = this.data.map(function(e) {
+            return e[props.metric1];
+        });
+
+        var metric2 = this.data.map(function(e) {
+            return e[props.metric2];
         });
 
         this.state = {
@@ -66,7 +70,16 @@ class Graph extends Component {
                 datasets:[
                     {
                         label: 'Population',
-                        data: metric,
+                        data: metric1,
+                        fill: false,
+                        backgroundColor: [
+                            'rgba(92, 103, 125, 0.6)',
+                        ]
+                    },
+
+                    {
+                        label: 'Stocks',
+                        data: metric2,
                         fill: false,
                         backgroundColor: [
                             'rgba(92, 103, 125, 0.6)',

@@ -1,0 +1,38 @@
+.SearchGraph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+.SearchBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.searchHeader {
+  background-color: grey;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
+}
+
+.content {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: auto;
+}
+
+.root {
+  display: flex;
+}
+
+.section {
+  height: "100%";
+  padding-top: 5;
+  background-color: "#fff";
+}
+
