@@ -21,7 +21,7 @@ package-lock.json
 .env
 
 # csv data files
-/db-upload-scripts/data_files
+/db_upload_scripts/data_files
 
 npm-debug.log*
 yarn-debug.log*
@@ -29,5 +29,5 @@ yarn-error.log*
 
 # idea files
 .idea/
-db-upload-scripts/.idea
+db_upload_scripts/.idea
 __pycache__
