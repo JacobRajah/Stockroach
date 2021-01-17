@@ -67,6 +67,7 @@ class Graph extends Component {
                     {
                         label: 'Population',
                         data: metric,
+                        fill: false,
                         backgroundColor: [
                             'rgba(92, 103, 125, 0.6)',
                         ]
@@ -88,18 +89,21 @@ class Graph extends Component {
             <div className="graph">
                 <Line
                 data={this.state.chartData}
-                // width={100}
+                // width={"50%"}
                 // height={50}
                 options={{ 
                     title:{
                         display: this.props.displayTitle,
                         text:'Largest Cities in Massachusetts',
-                        fontSize: 25
+                        fontSize: 17
                     },
                     legend:{
                         display: this.props.displayLegend,
                         position: this.props.legendPosition
-                    }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+
                 }}
                 />            
             </div>

@@ -10,7 +10,8 @@ import Link from '@material-ui/core/Link';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import NavBar from './navbar'
+import NavBar from './navbar';
+import Graph from '../graphing/graph'
 
 function Copyright() {
   return (
@@ -120,7 +121,7 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                  <Graph legendPosition="bottom" displayTitle={true} displayLegend = {false} metrics = "ema_50"/>    
               </Paper>
             </Grid>
             {/* Recent Deposits */}

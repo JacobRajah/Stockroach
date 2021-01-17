@@ -1,1 +1,0 @@
-/* File for accessing data from cockroach DB for display*/
