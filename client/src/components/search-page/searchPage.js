@@ -197,7 +197,7 @@ function ComboBox(props) {
       options={props.values}
       getOptionLabel={(option) => option.metric}
       style={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
     />
   );
 }

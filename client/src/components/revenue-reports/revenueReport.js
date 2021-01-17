@@ -48,7 +48,7 @@ class RevenueReport extends Component {
 
     componentDidMount() {
         axios.get('/returns').then(res => {
-          this.setState({gains: res.data.totalGains, loss: res.data.totalLosses}
+          this.setState({gain: res.data.totalGains, loss: res.data.totalLosses}
               )
         })
       }
