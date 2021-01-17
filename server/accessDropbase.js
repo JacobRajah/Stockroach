@@ -1,6 +1,6 @@
 /* File for accessing data from cockroach DB for display*/
 const axios = require('axios');
-require('dotenv').config(); //set env
+// require('dotenv').config(); //set env
 //googl msft
 
 function getMicrosoftClose(){
