@@ -1,10 +1,17 @@
+# File for uploading csv files to Dropbase using their API
+
 import requests
 import json
 import time
 
 
 def generate_presigned_url(db_pipe_token):
-    """Calls dropbase REST API to generate a URL to upload CSV file to"""
+    """
+    Calls dropbase REST API to generate a URL to upload CSV file to
+
+    @param db_pipe_token: Dropbase Pipeline Token
+    @return: Dictionary of success, return_url, job_id
+    """
     url = "https://api2.dropbase.io/v1/pipeline/generate_presigned_url"
 
     payload = "{\n    \"token\": \"" + db_pipe_token + "\"\n}"
@@ -31,17 +38,18 @@ def generate_presigned_url(db_pipe_token):
 
 
 def upload_file(upload_url, file_path):
-    """Calls dropbase REST API to generate a URL to upload CSV file to"""
+    """
+    Calls dropbase REST API to generate a URL to upload CSV file to
 
-    # payload="@/C:/Users/zhaya/Desktop/gistfile1.txt"
-    headers = {
-        'Content-Type': 'text/plain'
-    }
+    @param upload_url: URL to send the csv data to
+    @param file_path: path the CSV file
+    @return: dictionary of success or error response
+    """
+
     with open(file_path, 'rb') as data:
-        # requests.put(url, data=data)
         response = requests.put(upload_url, data=data)
+
     if response.status_code != 200:
-        # Unsuccessful
         return {
             "success": False,
             "error": response
@@ -50,23 +58,28 @@ def upload_file(upload_url, file_path):
 
 
 def wait_to_finish_upload(job_id):
+    """
+    Waits for file to finish uploading and processing on Dropbase
+    Sleeps for given time before rechecking
+    """
     url = "https://api2.dropbase.io/v1/pipeline/run_pipeline"
 
     payload = "{\n    \"job_id\":\"" + job_id + "\"\n}"
     headers = {
         'Content-Type': 'application/json'
     }
-    print("Sending check wait response")
+
     response = requests.request("GET", url, headers=headers, data=payload)
-    print(response.text)
+
     if response.status_code == 200:
         # Job Finished
         return True
     elif response.status_code == 202:
-        # Job In Progress
-        time.sleep(30)
+        # Job In Progress, try again in 15 seconds
+        time.sleep(15)
         return wait_to_finish_upload(job_id)
     else:
+        # Error
         print(f"Error waiting for job to finish: {job_id}")
         return False
 
@@ -74,21 +87,19 @@ def wait_to_finish_upload(job_id):
 def dropbase_upload(file_paths):
     """
     Uploads CSV data to dropbase database using their Beta REST API
-    :param file_paths:
-    :return:
+
+    :param file_paths: Dictionary {paths to CSV files : Pipeline tokens}
+    :return: None
     """
     for file in file_paths.keys():
-        print("Generating Presigned URL")
-        presign_url = generate_presigned_url(file_paths[file])
-        print("PURL: ", presign_url)
-        print("")
-        if presign_url and presign_url['success']:
-            print("Uploading File:", file)
-            upload_success = upload_file(presign_url['upload_url'], file)
-            print("Uploaded", upload_success)
-            if not upload_success or upload_success['success']:
-                print(f"Failed uploaded: {file}")
-            print("Waiting")
-            time.sleep(5)
-            wait_to_finish_upload(presign_url['job_id'])
-            print("Finished Waiting")
+
+        pre_sign = generate_presigned_url(file_paths[file])
+
+        if pre_sign and pre_sign['success']:
+            upload_success = upload_file(pre_sign['upload_url'], file)
+
+            if not upload_success or not upload_success['success']:
+                print(f"Failed uploading: {file}")
+            else:
+                time.sleep(5)   # Sleep  to ensure job_id processed on Dropbase
+                wait_to_finish_upload(pre_sign['job_id'])
