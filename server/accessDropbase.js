@@ -1,6 +1,6 @@
 /* File for accessing data from cockroach DB for display*/
 const axios = require('axios');
-require('dotenv').config(); //set env
+// require('dotenv').config(); //set env
 //googl msft
 
 function getMicrosoftClose(){
@@ -15,13 +15,27 @@ function getMicrosoftClose(){
 }
 
 async function getStockData(stock) {
-    const stock_data = await axios({
+    var stock_data = await axios({
         method: 'get',
         url: `https://query.dropbase.io/d3qWnE2P2znW8my37386zr/${stock}`,
         headers: {Authorization: `Bearer ${process.env.dropbase}`},
+        params: {
+            limit: 250,
+        }
     });
-
-    return await stock_data.data;
+    stock_data = await stock_data.data
+    return filterFiftyDay(await stock_data)
 }
 
-getStockData('msft').then(res => console.log(res))
+function filterFiftyDay(data) {
+    var formatted = data.map((e, i) => {
+        time = e.time
+        value = e.ema_50;
+        return {time, value};
+    })
+    return formatted
+}
+
+// getStockData('msft').then(res => console.log(res))
+
+module.exports.getStockData = getStockData
