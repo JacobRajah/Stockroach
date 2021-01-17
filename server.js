@@ -19,14 +19,22 @@ app.get('/', (req, res) => {
 
 /* Place all get and post paths here: */
 
+/* Base Example for getting data*/
 app.get('/stockData', (req, res) => {
-    data.getStockData('googl').then(resp => res.send(resp)).catch(err => console.log(err))
+    data.getStockData('googl').then(resp => res.send(resp)
+    ).catch(err => console.log(err))
 });
 
-/* Client asks for ema_50 data*/
-app.post('/stockReq', (req, res) => {
+/* Client specifies the metric in the url */
+app.post('/stockReq/:metric', (req, res) => {
     const stockSearch = (req.body).stock
-    data.getStockData(stockSearch).then(resp => res.send(resp)).catch(err => console.log(err))
-})
+    var metric = req.params.metric
+    data.getStockData(stockSearch, metric).then(resp => res.send(resp)
+    ).catch(err => console.log(err))
+});
+
+/* Client requests basic data for a stock */
+
+
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

@@ -1,12 +1,9 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   depositContext: {
@@ -26,7 +23,7 @@ export default function Deposits() {
         on 15 March, 2019
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link color="primary" to='./reports'>
           View balance
         </Link>
       </div>

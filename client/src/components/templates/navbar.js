@@ -39,20 +39,20 @@ const mainListItems = (
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Search" />
     </ListItem>
     </Link>
 
-    <Link to='./rand1'>
+    <Link to='./addstocks'>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Add Stocks" />
     </ListItem>
     </Link>
 
-    <Link to='./rand2'>
+    <Link to='./reports'>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
@@ -61,12 +61,12 @@ const mainListItems = (
     </ListItem>
     </Link>
 
-    <Link to='./rand3'>
+    <Link to='./compare'>
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Compare" />
     </ListItem>
     </Link>
   </div>
