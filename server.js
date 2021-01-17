@@ -144,7 +144,11 @@ app.get('/returns', (req, res) => {
 });
 
 /* Client requests basic data for a stock */
-
+app.post('/basicStock', (req, res) => {
+    const stockSearch = (req.body).stock
+    data.getStockBasics(stockSearch).then(resp => res.send(resp)
+    ).catch(err => console.log(err))   
+})
 
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

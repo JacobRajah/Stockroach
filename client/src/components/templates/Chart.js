@@ -82,6 +82,8 @@ class Chart extends Component {
     )
   }
 
+
+
   render() {
     return (
       <React.Fragment>

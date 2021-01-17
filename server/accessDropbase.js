@@ -1,6 +1,6 @@
 /* File for accessing data from cockroach DB for display*/
 const axios = require('axios');
-// require('dotenv').config(); //set env
+require('dotenv').config(); //set env
 //googl msft
 
 function getMicrosoftClose(){
@@ -37,6 +37,7 @@ function filter(data, metric) {
     return formatted.reverse();
 }
 
+//Gets the most recent data on a stock
 async function getStockBasics(stock) {
     var stock_data = await axios({
         method: 'get',
@@ -46,7 +47,15 @@ async function getStockBasics(stock) {
             limit: 1,
         }
     });
-    return await stock_data.data;
+    return filterBasic(await stock_data.data);
+}
+
+function filterBasic(stock_data){
+    formatted = []
+    for(const key in stock_data[0]){
+        formatted.push({stat: key, value: stock_data[0][key]})
+    }
+    return formatted
 }
 // getStockData('msft', 'open').then(res => console.log(res))
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import NavBar from '../templates/navbar';
-import Graph from '../graphing/graph';
+import Graph from '../graphing/graphing-2';
 import './searchPage.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,31 +15,32 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
 
-const rows = [
-  {
-      stat: 'open',
-      value: 15,
-  },
-  {
-      stat: 'close',
-      value: 25,
-  },
-  {
-    stat: 'high',
-    value: 95,
-  },
-  {
-    stat: 'low',
-    value: 15,
-  },
-  {
-      stat: 'volume',
-      value: 350000,
-  }
-]
+// const rows = [
+//   {
+//       stat: 'open',
+//       value: 15,
+//   },
+//   {
+//       stat: 'close',
+//       value: 25,
+//   },
+//   {
+//     stat: 'high',
+//     value: 95,
+//   },
+//   {
+//     stat: 'low',
+//     value: 15,
+//   },
+//   {
+//       stat: 'volume',
+//       value: 350000,
+//   }
+// ]
 
-function BasicTable() {
+function BasicTable(props) {
   const classes = useStyles();
 
   return (
@@ -52,7 +53,7 @@ function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {props.rows.map((row) => (
             <TableRow key={row.stat}>
               <TableCell component="th" scope="row">
                 {row.stat}
@@ -152,7 +153,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const values = [
+const metrics = [
   { metric: 'ema_50'},
   { metric: 'ema_250'},
   { metric: 'mom_50'},
@@ -166,13 +167,34 @@ const values = [
   { metric: "volume"}
 ];
 
+const stocks = [
+  { metric: 'Microsoft (msft)'},
+  { metric: 'AMD (amd)'},
+  { metric: 'Facebook (fb)'},
+  { metric: 'Google (googl)'},
+  { metric: 'Netflix (nflx)'},
+  { metric: 'Amazon (amzn)'},
+  { metric: 'Nvidia (nvda)'},
+]
+
+const lookup = {
+  'Microsoft (msft)' : 'msft_real',
+  'AMD (amd)' : 'amd_real',
+  'Facebook (fb)' : 'fb_real',
+  'Google (googl)' : 'googl',
+  'Netflix (nflx)' : 'nflx',
+  'Amazon (amzn)' : 'amzn',
+  'Nvidia (nvda)' : 'nvda'
+}
+
 // search bar
-function ComboBox() {
+function ComboBox(props) {
 
   return (
     <Autocomplete
       id="combo-box-demo"
-      options={values}
+      onChange={(event, value) => value != null ? props.set(value.metric): null}
+      options={props.values}
       getOptionLabel={(option) => option.metric}
       style={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
@@ -180,7 +202,7 @@ function ComboBox() {
   );
 }
 
-export default function SearchPage() {
+function SearchPageComp(props) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -194,28 +216,30 @@ export default function SearchPage() {
             {/* search bar 1 */}
             <Grid item xs={3.5}>
               <Paper className={classes.paper}>
-                <ComboBox/>
+                <ComboBox values={stocks} set={props.setStock}/>
               </Paper>
             </Grid>
             {/* search bar 2 */}
             <Grid item xs={3.5}>
               <Paper className={classes.paper}>
-                <ComboBox/>
+                <ComboBox values={metrics} set={props.setMetric}/>
               </Paper>
             </Grid>
             {/* Graph */}
-              <Grid item xs={12} md={8} lg={8}  alignItems="stretch">
+              <Grid item xs={12} md={8} lg={8}  height="500" alignItems="stretch">
                 <Paper className={fixedHeightPaper}>
                   {/* {`Cell ${1}`} */}
-                  {/* <div className="section"> */}
-
-                    <Graph legendPosition="bottom" displayTitle={true} displayLegend = {false} metric1 = "ema_50" metric2 = "ema_250"/>    
+                  
+                  {props.data !== [] ? <Graph data={props.data}
+                                              title={props.title}
+                                        ></Graph> : null}
+                    
                   {/* </div> */}
                 </Paper>
               </Grid>
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
-                <BasicTable/>
+                {props.rows !== [] ? <BasicTable rows={props.rows}/>: null}
               </Paper>
             </Grid>
           </Grid>
@@ -229,3 +253,66 @@ export default function SearchPage() {
     </div>
   );
 }
+
+function createData(time, amount) {
+  return { time, amount };
+}
+
+class SearchPage extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      stock: 'googl',
+      metric: 'ema_50',
+      data: [],
+      title: '',
+      rows: []
+    };
+    this.setStock = this.setStock.bind(this);
+    this.setMetric = this.setMetric.bind(this);
+  }
+
+  fetchData() {
+    axios.post(`/stockReq/${this.state.metric}`, {stock: this.state.stock}
+      ).then(res => {
+        const format = res.data.map((e,i) => {
+          return createData(e.time, e.value)
+        })
+        this.setState({data: format});
+      })
+  }
+
+  fetchStockBasic() {
+    axios.post('/basicStock', {stock: this.state.stock}
+      ).then(res => {
+        this.setState({rows: res.data});
+      })
+  }
+
+  setStock(stk) {
+    this.setState({title: stk})
+    this.setState({stock: lookup[stk]});
+    this.fetchData();
+    this.fetchStockBasic()
+  }
+
+  setMetric(met) {
+    this.setState({metric: met});
+    this.fetchData();
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchPageComp setMetric={this.setMetric} 
+                        setStock={this.setStock}
+                        data={this.state.data}
+                        title={this.state.title}
+                        rows={this.state.rows}></SearchPageComp>
+      </div>
+    )
+  }
+}
+
+export default SearchPage
